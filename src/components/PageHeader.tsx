@@ -25,7 +25,7 @@ export const PageHeader = ({ eyebrow, title, description, crumbs }: Props) => (
         <p className="mt-5 text-lg text-primary-foreground/80 max-w-2xl">{description}</p>
       )}
       {crumbs && (
-        <nav className="mt-8 flex items-center gap-1.5 text-sm text-primary-foreground/70">
+        <nav aria-label="Breadcrumb" className="mt-8 flex items-center gap-1.5 text-sm text-primary-foreground/70">
           {crumbs.map((c, i) => (
             <span key={i} className="flex items-center gap-1.5">
               {c.to ? (

@@ -31,7 +31,7 @@ export const Footer = () => (
       <div>
         <h4 className="font-display font-semibold mb-4 text-sm tracking-widest uppercase text-accent">Categories</h4>
         <ul className="space-y-2.5 text-sm">
-          {categories.slice(0, 5).map((c) => (
+          {categories.map((c) => (
             <li key={c.slug}>
               <Link to={`/products/${c.slug}`} className="text-primary-foreground/80 hover:text-accent transition">
                 {c.title}
@@ -69,7 +69,7 @@ export const Footer = () => (
     </div>
     <div className="border-t border-primary-foreground/10">
       <div className="container mx-auto container-px py-5 flex flex-col md:flex-row gap-2 items-center justify-between text-xs text-primary-foreground/60">
-        <p>© {new Date().getFullYear()} {company.name}. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} {company.name}. All rights reserved.</p>
         <p>Designed for healthcare excellence in Qatar.</p>
       </div>
     </div>

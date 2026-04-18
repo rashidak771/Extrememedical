@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import logo from "@/assets/logo.jpg";
 
 export const Logo = ({ variant = "default" }: { variant?: "default" | "light" }) => (
-  <Link to="/" className="flex items-center gap-3 group" aria-label="Extreme Medical Solution — Home">
+  <Link to="/" className="flex items-center gap-3 group" aria-label="Extreme Medical Solution - Home">
     <img
       src={logo}
       alt="Extreme Medical Solution logo"
@@ -15,7 +15,7 @@ export const Logo = ({ variant = "default" }: { variant?: "default" | "light" })
         EXTREME
       </div>
       <div className={`text-[10px] font-semibold tracking-widest ${variant === "light" ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
-        MEDICAL · QATAR
+        MEDICAL | QATAR
       </div>
     </div>
   </Link>

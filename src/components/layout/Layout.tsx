@@ -11,8 +11,14 @@ export const Layout = () => {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:shadow-soft"
+      >
+        Skip to main content
+      </a>
       <Navbar />
-      <main className="flex-1">
+      <main id="main-content" className="flex-1" tabIndex={-1}>
         <Outlet />
       </main>
       <Footer />

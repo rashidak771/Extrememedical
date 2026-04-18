@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { Target, Eye, Heart, Award, Users, Globe, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/PageHeader";
+import { Seo } from "@/components/Seo";
 import { company, stats } from "@/data/site";
-import dohaImg from "@/assets/doha.jpg";
 import labImg from "@/assets/cat-lab.jpg";
 
 const values = [
@@ -15,10 +15,16 @@ const values = [
 
 const About = () => (
   <>
+    <Seo
+      title={`About ${company.short} | Medical Equipment Supplier in Qatar`}
+      description="Learn about Extreme Medical Solution, our mission, values, and long-term support for healthcare and laboratory clients in Qatar."
+      path="/about"
+    />
+
     <PageHeader
       eyebrow="About Extreme Medical"
-      title="A trusted name in Qatar's medical & laboratory supply since 2015."
-      description="We support healthcare facilities, research institutions and diagnostic laboratories with reliable, efficient and innovative equipment solutions."
+      title="A trusted name in Qatar's medical and laboratory supply since 2015."
+      description="We support healthcare facilities, research institutions, and diagnostic laboratories with reliable, efficient, and innovative equipment solutions."
       crumbs={[{ label: "Home", to: "/" }, { label: "About" }]}
     />
 
@@ -29,21 +35,20 @@ const About = () => (
           <h2 className="font-display text-4xl font-bold text-primary leading-tight">Built on reliability, driven by precision.</h2>
           <div className="mt-6 space-y-4 text-muted-foreground text-lg leading-relaxed">
             <p>
-              Founded in {company.founded}, Extreme Medical Solution emerged from a simple
-              conviction: Qatar's healthcare professionals deserve a supplier that understands their
-              workflow, respects their time and stands behind every product.
+              Founded in {company.founded}, Extreme Medical Solution emerged from a simple conviction: Qatar&apos;s
+              healthcare professionals deserve a supplier that understands their workflow, respects their time, and stands
+              behind every product.
             </p>
             <p>
-              Today we work with hospitals, polyclinics, university and research labs, food &
-              water testing authorities and veterinary practices — bringing the same standard of
-              care and precision to every order.
+              Today we work with hospitals, polyclinics, university and research labs, food and water testing authorities,
+              and veterinary practices while maintaining the same standard of care and precision for every order.
             </p>
           </div>
           <div className="mt-8 grid grid-cols-2 gap-4">
-            {stats.map((s) => (
-              <div key={s.label} className="rounded-xl border bg-card p-5 shadow-soft">
-                <div className="text-3xl font-display font-bold text-accent">{s.value}</div>
-                <div className="text-sm text-muted-foreground mt-1">{s.label}</div>
+            {stats.map((stat) => (
+              <div key={stat.label} className="rounded-xl border bg-card p-5 shadow-soft">
+                <div className="text-3xl font-display font-bold text-accent">{stat.value}</div>
+                <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -52,7 +57,7 @@ const About = () => (
           <img src={labImg} alt="Laboratory equipment" loading="lazy" width={1024} height={768} className="rounded-2xl shadow-elegant w-full" />
           <div className="absolute -bottom-6 -right-6 bg-gradient-brand text-primary-foreground p-6 rounded-xl shadow-elegant max-w-[240px]">
             <Heart className="h-6 w-6 text-accent mb-2" />
-            <p className="text-sm">Supporting Qatar's vision for world-class healthcare delivery.</p>
+            <p className="text-sm">Supporting Qatar&apos;s vision for world-class healthcare delivery.</p>
           </div>
         </div>
       </div>
@@ -64,16 +69,16 @@ const About = () => (
           <Target className="h-10 w-10 text-accent" />
           <h3 className="mt-5 font-display text-2xl font-bold text-primary">Our Mission</h3>
           <p className="mt-3 text-muted-foreground leading-relaxed">
-            To provide top-of-the-range medical and laboratory equipment that enhances healthcare
-            delivery, research accuracy, and laboratory efficiency.
+            To provide top-of-the-range medical and laboratory equipment that enhances healthcare delivery, research
+            accuracy, and laboratory efficiency.
           </p>
         </div>
         <div className="rounded-2xl bg-gradient-brand text-primary-foreground p-10 shadow-elegant">
           <Eye className="h-10 w-10 text-accent" />
           <h3 className="mt-5 font-display text-2xl font-bold">Our Vision</h3>
           <p className="mt-3 text-primary-foreground/85 leading-relaxed">
-            To become a leading medical and laboratory equipment supplier recognized for quality,
-            reliability, and customer satisfaction.
+            To become a leading medical and laboratory equipment supplier recognized for quality, reliability, and customer
+            satisfaction.
           </p>
         </div>
       </div>
@@ -107,7 +112,9 @@ const About = () => (
             Discover how we can support your laboratory or healthcare facility.
           </p>
           <Button asChild variant="coral" size="lg" className="mt-8 h-12 px-8">
-            <Link to="/contact">Contact our team <ArrowRight className="h-4 w-4" /></Link>
+            <Link to="/contact">
+              Contact our team <ArrowRight className="h-4 w-4" />
+            </Link>
           </Button>
         </div>
       </div>
