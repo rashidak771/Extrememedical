@@ -6,9 +6,9 @@ export const Logo = ({ variant = "default" }: { variant?: "default" | "light" })
     <img
       src={logo}
       alt="Extreme Medical Solution logo"
-      className="h-11 w-11 rounded-full object-cover ring-2 ring-accent/20 group-hover:ring-accent/50 transition-all"
-      width={44}
-      height={44}
+      className="h-12 sm:h-14 w-auto max-w-[180px] object-contain rounded-md bg-white/95 p-1 ring-1 ring-primary/10 shadow-sm group-hover:ring-accent/40 transition-all"
+      width={180}
+      height={56}
     />
     <div className="leading-tight">
       <div className={`font-display font-bold text-base ${variant === "light" ? "text-primary-foreground" : "text-primary"}`}>
