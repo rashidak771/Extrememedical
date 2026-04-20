@@ -13,6 +13,68 @@ const escapeHtml = (value) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
 
+const formatPlainTextEnquiry = ({ name, company, email, phone, interest, subject, message }) =>
+  [
+    "New website enquiry",
+    "",
+    `Name: ${name}`,
+    `Company / Facility: ${company || "-"}`,
+    `Email: ${email}`,
+    `Phone: ${phone || "-"}`,
+    `Product Category: ${interest || "-"}`,
+    "",
+    "Message:",
+    message,
+  ].join("\n");
+
+const buildAcknowledgementEmail = ({ name, interest, subject, message }) => {
+  const safeName = escapeHtml(name);
+  const safeInterest = escapeHtml(interest || "-");
+  const safeSubject = escapeHtml(subject);
+  const safeMessage = escapeHtml(message);
+
+  return {
+    subject: "Thanks — we received your enquiry",
+    text: [
+      `Hi ${name},`,
+      "",
+      "Thanks for contacting us. We've received your enquiry and our team will get back to you within one business day.",
+      "",
+      "Enquiry summary",
+      `Subject: ${subject}`,
+      `Category: ${interest || "-"}`,
+      "",
+      "Your message",
+      message,
+      "",
+      "Regards",
+      "Extreme Medical Solution",
+    ].join("\n"),
+    html: `
+      <div style="font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; line-height: 1.5;">
+        <h2 style="margin: 0 0 12px; font-size: 20px;">Thanks — we received your enquiry</h2>
+        <p style="margin: 0 0 16px;">Hi ${safeName},</p>
+        <p style="margin: 0 0 16px;">
+          Thanks for contacting us. We've received your enquiry and our team will get back to you within one business day.
+        </p>
+        <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 18px 0;" />
+        <h3 style="margin: 0 0 10px; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: #6b7280;">
+          Enquiry summary
+        </h3>
+        <p style="margin: 0 0 6px;"><strong>Subject:</strong> ${safeSubject}</p>
+        <p style="margin: 0 0 16px;"><strong>Category:</strong> ${safeInterest}</p>
+        <h3 style="margin: 0 0 10px; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: #6b7280;">
+          Your message
+        </h3>
+        <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px 16px; white-space: pre-wrap;">
+          ${safeMessage}
+        </div>
+        <p style="margin: 18px 0 0;">Regards<br />Extreme Medical Solution</p>
+      </div>
+    `,
+  };
+};
+
 const setCorsHeaders = (req, res) => {
   const origin = req.headers.origin;
   const allowedOrigins = new Set([process.env.APP_ORIGIN].filter(Boolean));
@@ -71,23 +133,22 @@ export default async function handler(req, res) {
   });
 
   try {
+    const adminEmailText = formatPlainTextEnquiry({
+      name,
+      company,
+      email,
+      phone,
+      interest,
+      subject,
+      message,
+    });
+
     await transporter.sendMail({
       from: process.env.SMTP_FROM,
       to: process.env.CONTACT_TO || "rashid.ak@cornercart.co.in",
       replyTo: email,
       subject: `[Website Enquiry] ${subject}`,
-      text: [
-        "New website enquiry",
-        "",
-        `Name: ${name}`,
-        `Company / Facility: ${company || "-"}`,
-        `Email: ${email}`,
-        `Phone: ${phone || "-"}`,
-        `Product Category: ${interest || "-"}`,
-        "",
-        "Message:",
-        message,
-      ].join("\n"),
+      text: adminEmailText,
       html: `
         <h2>New website enquiry</h2>
         <p><strong>Name:</strong> ${escapeHtml(name)}</p>
@@ -98,6 +159,16 @@ export default async function handler(req, res) {
         <p><strong>Message:</strong></p>
         <p>${escapeHtml(message).replace(/\n/g, "<br />")}</p>
       `,
+    });
+
+    const acknowledgement = buildAcknowledgementEmail({ name, interest, subject, message });
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM,
+      to: email,
+      replyTo: process.env.CONTACT_TO || process.env.SMTP_USER,
+      subject: acknowledgement.subject,
+      text: acknowledgement.text,
+      html: acknowledgement.html,
     });
 
     return res.status(200).json({ ok: true });
